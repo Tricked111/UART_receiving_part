@@ -1,0 +1,27 @@
+vlib work
+vdel -lib work -all
+vlib work
+
+vcom -work work uart_fsm.vhd
+vcom -work work uart.vhd
+vcom -work work uart_tb.vhd
+
+# Starting simulation
+vsim -t 1ps -novopt -lib work testbench
+
+# Suppress warnings from arithm library
+puts "Std Arith Warnings - Disabled"
+set  StdArithNoWarnings 1
+
+add wave -divider "Global Signals"
+add wave -label rst /testbench/dut/rst
+add wave -label clk /testbench/dut/clk
+add wave -label din /testbench/dut/din
+add wave -label dout /testbench/dut/dout
+add wave -label dout_vld /testbench/dut/dout_vld
+
+add wave -divider "Internal Signals"
+# You can add wave for your own specific signals here
+
+run 5 ms
+wave zoomful
